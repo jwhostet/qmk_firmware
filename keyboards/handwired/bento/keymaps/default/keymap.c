@@ -14,38 +14,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#define ENCODER_RESOLUTION 2
+#define _BASE 0
+#define _UTIL 1
 
 enum encoder_names {
   _ENCODER
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    /*
-        |                   |      | Knob 1: Vol Dn/Up  |
-        | Hold: Layer 2     | Up   | Press: Mute        |
-        | Left              | Down | Right              |
-     */
-    [0] = LAYOUT(
-        MO(1), KC_UP, KC_MUTE,
-        KC_LEFT, KC_DOWN, KC_RGHT
+    [_BASE] = LAYOUT(
+        LT(_UTIL, KC_ESC), KC_UP, KC_MUTE,
+        SGUI(LSFT(KC_4)), SGUI(KC_5), KC_RGHT
     ),
-    /*
-        | Held: Layer 2  | Home | QK_BOOT      |
-        | Media Previous | End  | Media Next |
-     */
-    [1] = LAYOUT(
+    [_UTIL] = LAYOUT(
         _______, KC_HOME, QK_BOOT,
         KC_MPRV, KC_END , KC_MNXT
     ),
 };
 
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == _ENCODER) {
-        if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
-            tap_code(KC_VOLD);
-        }
-    }
-    return true;
-}
+#if defined(ENCODER_MAP_ENABLE)
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+    [_BASE] =   { ENCODER_CCW_CW(KC_MS_WH_UP, KC_MS_WH_DOWN) },
+    [_UTIL] =  { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+};
+#endif

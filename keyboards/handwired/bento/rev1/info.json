@@ -13,11 +13,11 @@
   },
   "encoder": {
     "rotary": [
-      {"pin_a": "D1", "pin_b": "D0"}
+      {"pin_a": "D0", "pin_b": "D1"}
     ]
   },
   "processor": "atmega32u4",
-  "bootloader": "caterina",
+  "bootloader": "qmk-dfu",
   "matrix_pins": {
     "direct": [
       ["D7", "B1", "D2"],
